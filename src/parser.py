@@ -22,7 +22,7 @@ class Graph:
     @vertices.setter
     def vertices(self, vertices):
         """
-        Задание числа вершин в графе
+        Установка числа вершин в графе
         """
         self._vertices = int(vertices)
 
@@ -36,13 +36,13 @@ class Graph:
     @edge_thickness.setter
     def edge_thickness(self, edge_thickness):
         """
-        Задание толщины ребра в графе
+        Установка толщины ребра в графе
         """
         self._edge_thickness = int(edge_thickness)
 
     def set_image(self, path):
         """
-        Загрузка и обработка изображение
+        Загрузка и обработка изображения
         """
         row_img = mpimg.imread(path)
         self._height, self._width, dim = row_img.shape
