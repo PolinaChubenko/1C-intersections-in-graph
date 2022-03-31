@@ -4,8 +4,9 @@ import math
 
 
 class Graph:
-    def __init__(self, edge_thickness=0):
+    def __init__(self, vertices, edge_thickness=0):
         self.img = None
+        self.vertices = int(vertices)
         self.edge_thickness = edge_thickness
         self.height = 0
         self.width = 0
@@ -59,20 +60,22 @@ class Graph:
     def is_window_black_enough(cls, window):
         sz = window.shape[0]
         blackness = ((sz**2) - np.cumsum(window)[-1]) / (sz**2)
-        return 0.9 < blackness < 1
+        return blackness > 0.7
+
+    def make_it_white(self, i, j, window_sz):
+        self.img[i:(i + window_sz), j:(j + window_sz)] = np.ones(shape=(window_sz, window_sz))
 
     def find_intersection_quantity(self):
-        count = 0
         window_sz = self.edge_thickness * 2
         for i in range(0, self.height - window_sz, self.edge_thickness):
             for j in range(0, self.width - window_sz, self.edge_thickness):
                 if self.is_window_black_enough(self.img[i:(i + window_sz), j:(j + window_sz)]):
-                    count += 1
-        return count
+                    self.intersections += 1
+                    self.make_it_white(i, j, int(3 * window_sz))
+        return self.intersections - self.vertices
 
 
 if __name__ == '__main__':
-    graph = Graph()
+    graph = Graph(input('Enter the number of vertices in the graph: '))
     graph.set_image(input("Enter the path to the image: "))
     print("In this graph there are {} intersections".format(graph.find_intersection_quantity()))
-
